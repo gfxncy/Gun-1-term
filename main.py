@@ -46,9 +46,9 @@ class Ball:
         self.x и self.y с учетом скоростей self.vx и self.vy, силы гравитации, действующей на мяч,
         и стен по краям окна (размер окна 800х600).
         """
-        # FIXME
-        self.x += self.vx
-        self.y -= self.vy
+        global FPS
+        self.x += self.vx / FPS
+        self.y -= self.vy / FPS
 
     def draw(self):
         pygame.draw.circle(
