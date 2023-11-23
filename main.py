@@ -1,3 +1,4 @@
+#aboba
 import math
 from random import choice
 
