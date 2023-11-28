@@ -159,13 +159,15 @@ balls = []
 
 clock = pygame.time.Clock()
 gun = Gun(screen)
-target = Target()
+target1 = Target()
+target2 = Target()
 finished = False
 
 while not finished:
     screen.fill(WHITE)
     gun.draw()
-    target.draw()
+    target1.draw()
+    target2.draw()
     for b in balls:
         b.draw()
     pygame.display.update()
@@ -183,10 +185,15 @@ while not finished:
 
     for b in balls:
         b.move()
-        if b.hittest(target) and target.live:
-            target.live = 0
-            target.hit()
-            target = Target()
+        if b.hittest(target1) and target1.live:
+            target1.live = 0
+            target1.hit()
+            target1 = Target()
+
+        if b.hittest(target2) and target2.live:
+            target2.live = 0
+            target2.hit()
+            target2 = Target()
 
     gun.power_up()
 
