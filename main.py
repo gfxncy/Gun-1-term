@@ -116,7 +116,7 @@ class Gun:
         pygame.draw.circle(
             self.screen,
             self.color,
-            (0, 0),
+            (40, 450),
             10
         )
 
@@ -186,7 +186,8 @@ while not finished:
         if b.hittest(target) and target.live:
             target.live = 0
             target.hit()
-            target.new_target()
+            target = Target()
+
     gun.power_up()
 
 pygame.quit()
