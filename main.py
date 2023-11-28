@@ -23,7 +23,10 @@ WIDTH = 800
 HEIGHT = 600
 
 #gravity
-g = 10
+g = 200
+
+#ball lifetime (number of cadrs)
+ball_lifetime = 5 * FPS
 
 
 class Ball:
@@ -43,6 +46,7 @@ class Ball:
         self.vy = 0
         self.color = choice(GAME_COLORS)
         self.live = 30
+        self.lifetime = 0
 
     def move(self):
         """Переместить мяч по прошествии единицы времени.
@@ -88,6 +92,9 @@ class Ball:
             return False
         return True
 
+    def update_lifetime(self):
+        self.lifetime += 1
+
 
 #different types of balls
 class Yellow_Ball(Ball):
@@ -130,8 +137,8 @@ class Gun:
 
         new_ball.r += 5
         self.an = math.atan2((event.pos[1]-new_ball.y), (event.pos[0]-new_ball.x))
-        new_ball.vx = self.f2_power * math.cos(self.an)
-        new_ball.vy = - self.f2_power * math.sin(self.an)
+        new_ball.vx = self.f2_power * math.cos(self.an) * 10
+        new_ball.vy = - self.f2_power * math.sin(self.an) * 10
         balls.append(new_ball)
         self.f2_on = 0
         self.f2_power = 10
@@ -257,6 +264,9 @@ while not finished:
 
     for b in balls:
         b.move()
+        b.update_lifetime()
+
+        #check collisions
         if b.hittest(target1) and target1.live:
             target1.live = 0
             target1.hit()
@@ -266,6 +276,10 @@ while not finished:
             target2.live = 0
             target2.hit()
             target2 = Rotating_Target()
+
+    # remove old balls
+    if len(balls) > 0 and balls[0].lifetime > ball_lifetime:
+        balls.remove(balls[0])
 
     gun.power_up()
 
