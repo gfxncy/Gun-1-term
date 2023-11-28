@@ -31,6 +31,7 @@ class Ball:
         x - начальное положение мяча по горизонтали
         y - начальное положение мяча по вертикали
         """
+
         self.screen = screen
         self.x = x
         self.y = y
@@ -67,8 +68,11 @@ class Ball:
         Returns:
             Возвращает True в случае столкновения мяча и цели. В противном случае возвращает False.
         """
-        # FIXME
-        return False
+
+        distance = ((self.x - obj.x) ** 2 + (self.y - obj.y) ** 2) ** (1/2)
+        if distance > obj.r:
+            return False
+        return True
 
 
 class Gun:
@@ -121,9 +125,6 @@ class Gun:
 
 
 class Target:
-
-    # FIXME: don't work!!! How to call this functions when object is created?
-
     def __init__(self):
         self.points = 0
         self.live = 1
