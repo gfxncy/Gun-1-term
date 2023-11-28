@@ -52,6 +52,13 @@ class Ball:
         self.x += self.vx / FPS
         self.y -= self.vy / FPS
 
+        #colission with wall check
+
+        if self.x > WIDTH or self.x < 0:
+            self.vx *= -1
+        if self.y > HEIGHT or self.y < 0:
+            self.vy *= -1
+
     def draw(self):
         pygame.draw.circle(
             self.screen,
