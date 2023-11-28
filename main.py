@@ -153,12 +153,12 @@ class Gun:
             self.color = GREY
 
     def draw(self):
-        pygame.draw.circle(
-            self.screen,
-            self.color,
-            (40, 450),
-            10
-        )
+        pygame.draw.polygon(self.screen,
+                            self.color,
+                            ((50, 450),
+                             (50 + 5 * self.f2_power * math.cos(self.an), 450 + 5 * self.f2_power * math.sin(self.an)),
+                             (50 + 5 * self.f2_power * math.cos(self.an) - 20 * math.sin(self.an), 450 + 5 * self.f2_power * math.sin(self.an) + 20 * math.cos(self.an)),
+                             (50 - 20 * math.sin(self.an), 450 + 20 * math.cos(self.an))))
 
     def power_up(self):
         if self.f2_on:
