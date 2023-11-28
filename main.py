@@ -1,5 +1,6 @@
 #aboba
 import math
+import random
 from random import choice
 
 import pygame
@@ -67,7 +68,7 @@ class Ball:
             Возвращает True в случае столкновения мяча и цели. В противном случае возвращает False.
         """
         # FIXME
-            return False
+        return False
 
 
 class Gun:
@@ -120,16 +121,15 @@ class Gun:
 
 
 class Target:
-    # self.points = 0
-    # self.live = 1
-    # FIXME: don't work!!! How to call this functions when object is created?
-    # self.new_target()
 
-    def new_target(self):
-        """ Инициализация новой цели. """
-        x = self.x = rnd(600, 780)
-        y = self.y = rnd(300, 550)
-        r = self.r = rnd(2, 50)
+    # FIXME: don't work!!! How to call this functions when object is created?
+
+    def __init__(self):
+        self.points = 0
+        self.live = 1
+        x = self.x = random.randint(600, 780)
+        y = self.y = random.randint(300, 550)
+        r = self.r = random.randint(2, 50)
         color = self.color = RED
 
     def hit(self, points=1):
