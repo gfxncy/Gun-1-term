@@ -101,7 +101,7 @@ class Gun:
         new_ball.vy = - self.f2_power * math.sin(self.an)
         balls.append(new_ball)
         self.f2_on = 0
-        self.f2_power = 10
+        self.f2_power = 100
 
     def targetting(self, event):
         """Прицеливание. Зависит от положения мыши."""
@@ -113,8 +113,12 @@ class Gun:
             self.color = GREY
 
     def draw(self):
-    def draw(self):
-        #fixme don't know how to do it
+        pygame.draw.circle(
+            self.screen,
+            self.color,
+            (0, 0),
+            10
+        )
 
     def power_up(self):
         if self.f2_on:
