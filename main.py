@@ -22,6 +22,9 @@ GAME_COLORS = [RED, BLUE, YELLOW, GREEN, MAGENTA, CYAN]
 WIDTH = 800
 HEIGHT = 600
 
+#gravity
+g = 10
+
 
 class Ball:
     def __init__(self, screen: pygame.Surface, x=40, y=450):
@@ -49,8 +52,12 @@ class Ball:
         и стен по краям окна (размер окна 800х600).
         """
         global FPS
+        #inertion
         self.x += self.vx / FPS
         self.y -= self.vy / FPS
+
+        #gravity
+        self.vy -= g / FPS
 
         #colission with wall check
 
@@ -127,7 +134,7 @@ class Gun:
         new_ball.vy = - self.f2_power * math.sin(self.an)
         balls.append(new_ball)
         self.f2_on = 0
-        self.f2_power = 100
+        self.f2_power = 10
 
     def targetting(self, event):
         """Прицеливание. Зависит от положения мыши."""
