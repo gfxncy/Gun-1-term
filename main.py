@@ -137,6 +137,8 @@ class Target:
         x = self.x = random.randint(600, 780)
         y = self.y = random.randint(300, 550)
         r = self.r = random.randint(2, 50)
+        self.vx = random.randint(0, 50)
+        self.vy = random.randint(0, 50)
         color = self.color = RED
 
     def hit(self, points=1):
@@ -150,6 +152,17 @@ class Target:
             (self.x, self.y),
             self.r
         )
+
+    def move(self):
+        self.x += self.vx / FPS
+        self.y += self.vy / FPS
+
+        #colission with walls check
+
+        if self.x > WIDTH or self.x < 0:
+            self.vx *= -1
+        if self.y > HEIGHT or self.y < 0:
+            self.vy *= -1
 
 
 pygame.init()
@@ -182,6 +195,9 @@ while not finished:
             gun.fire2_end(event)
         elif event.type == pygame.MOUSEMOTION:
             gun.targetting(event)
+
+    target1.move()
+    target2.move()
 
     for b in balls:
         b.move()
