@@ -82,6 +82,7 @@ class Ball:
         return True
 
 
+#different types of balls
 class Yellow_Ball(Ball):
     def __init__(self, screen):
         super().__init__(screen)
@@ -190,6 +191,29 @@ class Target:
             self.vy *= -1
 
 
+#Цель, которая движется по окружности
+class Rotating_Target(Target):
+    def __init__(self):
+        super().__init__()
+        self.omega = random.randint(1, 10)
+
+    def move(self):
+        self.x += self.vx / FPS
+        self.y += self.vy / FPS
+
+        #rotation
+
+        self.vx += self.vy * self.omega / FPS
+        self.vy += self.vx * (-1) * self.omega / FPS
+
+        # colission with walls check
+
+        if self.x > WIDTH or self.x < 0:
+            self.vx *= -1
+        if self.y > HEIGHT or self.y < 0:
+            self.vy *= -1
+
+
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 bullet = 0
@@ -198,7 +222,7 @@ balls = []
 clock = pygame.time.Clock()
 gun = Gun(screen)
 target1 = Target()
-target2 = Target()
+target2 = Rotating_Target()
 finished = False
 
 while not finished:
@@ -234,7 +258,7 @@ while not finished:
         if b.hittest(target2) and target2.live:
             target2.live = 0
             target2.hit()
-            target2 = Target()
+            target2 = Rotating_Target()
 
     gun.power_up()
 
