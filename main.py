@@ -70,7 +70,7 @@ class Ball:
         """
 
         distance = ((self.x - obj.x) ** 2 + (self.y - obj.y) ** 2) ** (1/2)
-        if distance > obj.r:
+        if distance > (obj.r + self.r):
             return False
         return True
 
@@ -113,7 +113,8 @@ class Gun:
             self.color = GREY
 
     def draw(self):
-        # FIXIT don't know how to do it
+    def draw(self):
+        #fixme don't know how to do it
 
     def power_up(self):
         if self.f2_on:
@@ -126,6 +127,7 @@ class Gun:
 
 class Target:
     def __init__(self):
+        self.screen = screen
         self.points = 0
         self.live = 1
         x = self.x = random.randint(600, 780)
@@ -138,7 +140,12 @@ class Target:
         self.points += points
 
     def draw(self):
-        ...
+        pygame.draw.circle(
+            self.screen,
+            self.color,
+            (self.x, self.y),
+            self.r
+        )
 
 
 pygame.init()
