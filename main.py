@@ -30,7 +30,7 @@ ball_lifetime = 5 * FPS
 
 
 class Ball:
-    def __init__(self, screen: pygame.Surface, x=40, y=450):
+    def __init__(self, screen: pygame.Surface, x, y):
         """ Конструктор класса ball
 
         Args:
@@ -98,14 +98,14 @@ class Ball:
 
 #different types of balls
 class Yellow_Ball(Ball):
-    def __init__(self, screen):
-        super().__init__(screen)
+    def __init__(self, screen, x, y):
+        super().__init__(screen, x, y)
         self.color = YELLOW
 
 
 class Blue_Ball(Ball):
-    def __init__(self, screen):
-        super().__init__(screen)
+    def __init__(self, screen, x, y):
+        super().__init__(screen, x, y)
         self.color = BLUE
 
 
@@ -116,6 +116,9 @@ class Gun:
         self.f2_on = 0
         self.an = 1
         self.color = GREY
+        self.x = 50
+        self.y = 450
+        self.vx0 = 150
 
     def fire2_start(self, event):
         self.f2_on = 1
@@ -131,9 +134,9 @@ class Gun:
 
         ij = random.randint(1, 2)
         if ij == 1:
-            new_ball = Yellow_Ball(self.screen)
+            new_ball = Yellow_Ball(self.screen, gun.x, gun.y)
         else:
-            new_ball = Blue_Ball(self.screen)
+            new_ball = Blue_Ball(self.screen, gun.x, gun.y)
 
         new_ball.r += 5
         self.an = math.atan2((event.pos[1]-new_ball.y), (event.pos[0]-new_ball.x))
@@ -153,12 +156,14 @@ class Gun:
             self.color = GREY
 
     def draw(self):
+        sx = self.x
+        sy = self.y
         pygame.draw.polygon(self.screen,
                             self.color,
-                            ((50, 450),
-                             (50 + 5 * self.f2_power * math.cos(self.an), 450 + 5 * self.f2_power * math.sin(self.an)),
-                             (50 + 5 * self.f2_power * math.cos(self.an) - 20 * math.sin(self.an), 450 + 5 * self.f2_power * math.sin(self.an) + 20 * math.cos(self.an)),
-                             (50 - 20 * math.sin(self.an), 450 + 20 * math.cos(self.an))))
+                            ((sx, sy),
+                             (sx + 5 * self.f2_power * math.cos(self.an), sy + 5 * self.f2_power * math.sin(self.an)),
+                             (sx + 5 * self.f2_power * math.cos(self.an) - 20 * math.sin(self.an), sy + 5 * self.f2_power * math.sin(self.an) + 20 * math.cos(self.an)),
+                             (sx - 20 * math.sin(self.an), sy + 20 * math.cos(self.an))))
 
     def power_up(self):
         if self.f2_on:
@@ -167,6 +172,12 @@ class Gun:
             self.color = RED
         else:
             self.color = GREY
+
+    def move_left(self):
+        self.x -= self.vx0 / FPS
+
+    def move_right(self):
+        self.x += self.vx0 / FPS
 
 
 class Target:
@@ -258,6 +269,11 @@ while not finished:
             gun.fire2_end(event)
         elif event.type == pygame.MOUSEMOTION:
             gun.targetting(event)
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_a:
+                gun.move_left()
+            elif event.key == pygame.K_d:
+                gun.move_right()
 
     target1.move()
     target2.move()
